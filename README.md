@@ -40,4 +40,5 @@ The Cash-control-backend is a API of Cash-Control web-service
 | DB_HOST     | localhost    |
 | DB_PORT     | 5432         |
 | DB_NAME     | cash-control |
+| DB_USER     | postgres     |
 | DB_PASSWORD | postgres     |
