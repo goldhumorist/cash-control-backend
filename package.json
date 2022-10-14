@@ -1,0 +1,43 @@
+{
+  "name": "cash-control-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build/src/server",
+    "start": "node build/src/server",
+    "watch": "nodemon src/server",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Goldhumorist/cash-control-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Goldhumorist/cash-control-backend/issues"
+  },
+  "homepage": "https://github.com/Goldhumorist/cash-control-backend#readme",
+  "dependencies": {
+    "bcrypt": "5.1.0",
+    "body-parser": "1.20.1",
+    "config": "3.3.8",
+    "cors": "2.8.5",
+    "dotenv": "16.0.3",
+    "express": "4.18.2",
+    "pg": "8.8.0",
+    "sequelize": "6.25.1",
+    "sequelize-cli": "6.5.1"
+  },
+  "devDependencies": {
+    "eslint": "8.25.0",
+    "eslint-config-standard": "17.0.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-n": "15.3.0",
+    "eslint-plugin-promise": "6.1.0",
+    "nodemon": "2.0.20"
+  }
+}
