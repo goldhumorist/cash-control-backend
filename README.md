@@ -1,6 +1,6 @@
 # Cash-control-backend
 
-The Cash-control-backend is a API of Cash-Control web-service
+The Cash-control-backend is an API of Cash-Control web-service
 
 ---
 
@@ -14,7 +14,7 @@ The Cash-control-backend is a API of Cash-Control web-service
 
 2. Build docker container for database
 
-   `docker-compose up`
+   `docker compose up`
 
 3. Create .env file in root directory
 
