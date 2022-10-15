@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node build/src/server",
-    "start": "node build/src/server",
+    "start": "node src/server",
     "watch": "nodemon src/server",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
