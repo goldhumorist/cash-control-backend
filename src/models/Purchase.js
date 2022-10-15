@@ -10,7 +10,11 @@ const Purchase = DB.define('purchases', {
     allowNull: false,
     primaryKey: true,
   },
-  product_title: {
+  purchase_title: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  purchase_price: {
     type: Sequelize.STRING,
     allowNull: false,
   },

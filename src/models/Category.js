@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const { DB } = require('../db');
+const User = require('./User');
 
 const Category = DB.define('categories', {
   id: {
@@ -12,6 +13,13 @@ const Category = DB.define('categories', {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true,
+  },
+  user_id: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+    },
   },
 });
 

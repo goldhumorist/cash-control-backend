@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const createError = require('../errors-handle/createError');
+const rootRepository = require('../repositories/root-repository')();
 
 const logAlias = 'User-auth-service';
 
@@ -8,7 +9,7 @@ const userAuthService = (userAuthRepository) => {
   const signup = async ({ name, email, password }) => {
     console.log(logAlias, { name, email, password });
 
-    const isUserExists = await userAuthRepository.findUserByEmail(email);
+    const isUserExists = await rootRepository.findUserByEmail(email);
 
     if (isUserExists) {
       throw createError('Email is already in use!', 400);
@@ -29,7 +30,7 @@ const userAuthService = (userAuthRepository) => {
   const login = async ({ email, password }) => {
     console.log(logAlias, { email, password });
 
-    const user = await userAuthRepository.findUserByEmail(email);
+    const user = await rootRepository.findUserByEmail(email);
 
     if (!user) throw createError('User does not exists.', 400);
 
