@@ -13,6 +13,6 @@ const { connectToDb } = require('./db');
       console.log(`Server listening on port ${PORT}!`);
     });
   } catch (err) {
-    console.err(err);
+    console.error(err);
   }
 })();
