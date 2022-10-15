@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const createError = require('../errors-handle/createError');
+const jwtService = require('../middlewares/jwt-service');
 const rootRepository = require('../repositories/root-repository')();
 
 const logAlias = 'User-auth-service';
@@ -23,7 +24,9 @@ const userAuthService = (userAuthRepository) => {
       password: hashedPassword,
     });
 
-    return { message: 'An Account successfully created', name, email };
+    const token = jwtService.sign({ email });
+
+    return { name, email, token };
   };
 
   // user service -> login()
@@ -41,7 +44,9 @@ const userAuthService = (userAuthRepository) => {
 
     if (!isPasswordCorrect) throw createError('Incorrect password.', 400);
 
-    return { name: user.dataValues.name, email: user.dataValues.email };
+    const token = jwtService.sign({ email });
+
+    return { name: user.name, email: user.email, token };
   };
 
   return { signup, login };

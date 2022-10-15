@@ -1,21 +1,11 @@
-// const bcrypt = require('bcrypt');
 const createError = require('../errors-handle/createError');
-const rootRepository = require('../repositories/root-repository')();
 
 const logAlias = 'Main-service';
 
 const mainService = (mainRepository) => {
   // user service -> signup()
-  const addCategory = async ({ email, categoryTitle }) => {
-    console.log(logAlias, { email, categoryTitle });
-
-    const user = await rootRepository.findUserByEmail(email);
-
-    if (!user) {
-      throw createError('User with this email does not exists!', 400);
-    }
-
-    const userId = user.dataValues.id;
+  const addCategory = async ({ userId, categoryTitle }) => {
+    console.log(logAlias, { userId, categoryTitle });
 
     try {
       await mainRepository.addCategory({
@@ -30,16 +20,8 @@ const mainService = (mainRepository) => {
   };
 
   // user service -> getAllCategories()
-  const getAllCategories = async ({ email }) => {
-    console.log(logAlias, { email });
-
-    const user = await rootRepository.findUserByEmail(email);
-
-    if (!user) {
-      throw createError('User with this email does not exists!', 400);
-    }
-
-    const userId = user.dataValues.id;
+  const getAllCategories = async ({ userId }) => {
+    console.log(logAlias, { userId });
 
     let allCategories = await mainRepository.getAllCategories({
       userId,
@@ -47,8 +29,8 @@ const mainService = (mainRepository) => {
 
     allCategories = allCategories.map((category) => {
       return {
-        categoryId: category.dataValues.id,
-        categoryTitle: category.dataValues.category_title,
+        categoryId: category.id,
+        categoryTitle: category.category_title,
       };
     });
 
