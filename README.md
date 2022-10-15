@@ -42,3 +42,4 @@ The Cash-control-backend is a API of Cash-Control web-service
 | DB_NAME     | cash-control |
 | DB_USER     | postgres     |
 | DB_PASSWORD | postgres     |
+| JWT_SECRET  | JWT Secret   |

@@ -5,14 +5,15 @@ const logAlias = 'Main-Controller';
 const mainController = (mainService) => {
   // main controller -> addCategory()
   const addCategory = async (req, res, next) => {
-    const { email, categoryTitle } = req.body;
+    const { categoryTitle } = req.body;
+    const { id: userId } = req.user;
 
-    console.log(logAlias, ' add category: ', { email, categoryTitle });
+    console.log(logAlias, ' add category: ', { userId, categoryTitle });
 
-    if (email && categoryTitle) {
+    if (categoryTitle) {
       try {
         const result = await mainService.addCategory({
-          email,
+          userId,
           categoryTitle,
         });
 
@@ -28,24 +29,19 @@ const mainController = (mainService) => {
 
   // main controller -> getAllCategories()
   const getAllCategories = async (req, res, next) => {
-    const { email } = req.body;
+    const { id: userId } = req.user;
 
-    console.log(logAlias, ' get all categories: ', { email });
+    console.log(logAlias, ' get all categories: ', { userId });
 
-    if (email) {
-      try {
-        const result = await mainService.getAllCategories({
-          email,
-        });
+    try {
+      const result = await mainService.getAllCategories({
+        userId,
+      });
 
-        return res.json(result);
-      } catch (error) {
-        next(error);
-      }
+      return res.json(result);
+    } catch (error) {
+      next(error);
     }
-
-    const error = createError('Incorrect Data for getting categories', 400);
-    next(error);
   };
 
   return { addCategory, getAllCategories };

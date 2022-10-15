@@ -3,6 +3,9 @@ dotenv.config();
 
 const config = {
   port: process.env.PORT || 7777,
+  JWT: {
+    sercet: process.env.JWT_SECRET,
+  },
   database: {
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT, 10),
