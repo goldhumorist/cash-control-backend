@@ -12,7 +12,6 @@ const Category = DB.define('categories', {
   category_title: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true,
   },
   user_id: {
     type: Sequelize.INTEGER,
