@@ -1,4 +1,8 @@
+const authenticate = require('../middlewares/authenticate');
+
 const router = require('express').Router();
+
+const basicUserRoute = '/api/user';
 
 module.exports = () => {
   const userAuthRepository = require('../repositories/user-auth-repository')();
@@ -9,7 +13,18 @@ module.exports = () => {
     userAuthService
   );
 
-  const { heathcheck, signup, login } = userAuthController;
+  const { heathcheck, signup, login, checkAuth } = userAuthController;
+
+  /**
+   * @swagger
+   * components:
+   *   schemas:
+   *   securitySchemes:
+   *    bearerAuth:
+   *      type: http
+   *      scheme: bearer
+   *      bearerFormat: JWT
+   */
 
   /**
    * @swagger
@@ -58,6 +73,29 @@ module.exports = () => {
 
   /**
    * @swagger
+   * /api/user/checkAuth:
+   *   post:
+   *     summary: Check is token valid
+   *     tags: [User]
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       200:
+   *         description: JWT Token is valid
+   *       401:
+   *        description: Token expires
+   *        content:
+   *          application/json:
+   *            schema:
+   *              type: object
+   *              properties:
+   *                message:
+   *                  type: string
+   */
+  router.post(`${basicUserRoute}/checkAuth`, authenticate, checkAuth);
+
+  /**
+   * @swagger
    * /api/user/signup:
    *   post:
    *     summary: Create an account
@@ -92,7 +130,7 @@ module.exports = () => {
    *                message:
    *                  type: string
    */
-  router.post('/api/user/signup', signup);
+  router.post(`${basicUserRoute}/signup`, signup);
 
   /**
    * @swagger
@@ -128,7 +166,7 @@ module.exports = () => {
    *                message:
    *                  type: string
    */
-  router.post('/api/user/login', login);
+  router.post(`${basicUserRoute}/login`, login);
 
   return router;
 };

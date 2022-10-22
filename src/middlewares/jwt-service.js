@@ -3,14 +3,12 @@ const jwt = require('jsonwebtoken');
 const createError = require('../errors-handle/createError');
 
 const JWT_CONFIGURATION = {
-  expiresIn: '24h',
+  expiresIn: '1h',
 };
 
 module.exports = {
   sign({ email }) {
-    return jwt.sign({ email }, process.env.JWT_SECRET, {
-      expiresIn: JWT_CONFIGURATION.expiresIn,
-    });
+    return jwt.sign({ email }, process.env.JWT_SECRET, JWT_CONFIGURATION);
   },
 
   verify(token) {

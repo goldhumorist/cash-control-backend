@@ -2,18 +2,30 @@ const Sequelize = require('sequelize');
 const { DB } = require('../db');
 const User = require('./User');
 
-const Category = DB.define('categories', {
+const PiggyBank = DB.define('piggy-bank', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
-  category_title: {
+  piggy_bank_title: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  user_id: {
+  goal_sum: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  current_cum: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  expired_time: {
+    type: Sequelize.DATE,
+    allowNull: true,
+  },
+  owner_id: {
     type: Sequelize.INTEGER,
     references: {
       model: User,
@@ -22,4 +34,4 @@ const Category = DB.define('categories', {
   },
 });
 
-module.exports = Category;
+module.exports = PiggyBank;

@@ -1,5 +1,6 @@
 const { config } = require('./config');
 const { connectToDb } = require('./db');
+const logger = require('./helpers/logger');
 
 (async () => {
   const PORT = config.port;
@@ -10,9 +11,9 @@ const { connectToDb } = require('./db');
     const app = await require('./app')();
 
     app.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT}!`);
+      logger.info(`Server listening on port ${PORT}!`);
     });
   } catch (err) {
-    console.error(err);
+    logger.error('Start Server is failed', err);
   }
 })();
