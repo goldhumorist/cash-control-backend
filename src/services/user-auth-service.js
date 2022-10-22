@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const createError = require('../errors-handle/createError');
+const logger = require('../helpers/logger');
 const jwtService = require('../middlewares/jwt-service');
 const rootRepository = require('../repositories/root-repository')();
 
@@ -8,7 +9,7 @@ const logAlias = 'User-auth-service';
 const userAuthService = (userAuthRepository) => {
   // user service -> signup()
   const signup = async ({ name, email, password }) => {
-    console.log(logAlias, { name, email, password });
+    logger.info(`${logAlias} signup`, { name, email, password });
 
     const isUserExists = await rootRepository.findUserByEmail(email);
 
@@ -31,7 +32,7 @@ const userAuthService = (userAuthRepository) => {
 
   // user service -> login()
   const login = async ({ email, password }) => {
-    console.log(logAlias, { email, password });
+    logger.info(`${logAlias} login`, { email, password });
 
     const user = await rootRepository.findUserByEmail(email);
 

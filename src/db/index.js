@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const { config } = require('../config');
+const logger = require('../helpers/logger');
 
 let isConnectedToDb = null;
 const logAlias = 'Postgres';
@@ -23,7 +24,7 @@ const connectToDb = async () => {
   try {
     await DB.authenticate();
 
-    console.log(logAlias, 'succesfully connected to db');
+    logger.info(`${logAlias} succesfully connected to db`);
 
     isConnectedToDb = true;
 
@@ -31,15 +32,13 @@ const connectToDb = async () => {
 
     return DB;
   } catch (error) {
-    console.log(logAlias, 'connection to db failed');
+    logger.error(`${logAlias} connection to db failed`);
     throw error;
   }
 };
 
 const init = async () => {
-  require('../models/User');
-  require('../models/Category');
-  require('../models/Purchase');
+  require('../models/');
 
   await DB.sync(
     { force: false } // Reset db every time
