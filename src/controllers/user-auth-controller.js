@@ -11,6 +11,13 @@ const userAuthController = (userAuthService) => {
     res.status(200).json({ status: 'OK' });
   };
 
+  // user controller -> checkAuth()
+  const checkAuth = async (req, res) => {
+    logger.info(`${logAlias} checkAuth`);
+
+    res.status(200).end();
+  };
+
   // user controller -> signup()
   const signup = async (req, res, next) => {
     const { name, email, password } = req.body;
@@ -58,7 +65,7 @@ const userAuthController = (userAuthService) => {
     return next(error);
   };
 
-  return { heathcheck, signup, login };
+  return { heathcheck, signup, login, checkAuth };
 };
 
 module.exports = userAuthController;
