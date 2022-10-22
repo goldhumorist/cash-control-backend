@@ -15,6 +15,7 @@ module.exports = async () => {
 
   const userAuthRoutes = require('./routes/user-auth-routes')();
   const mainRoutes = require('./routes/main-routes')();
+  const piggyBankRoutes = require('./routes/piggy-bank-routes')();
 
   app.use(cors());
   app.use(express.json());
@@ -24,6 +25,7 @@ module.exports = async () => {
 
   app.use(userAuthRoutes);
   app.use(mainRoutes);
+  app.use(piggyBankRoutes);
 
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
