@@ -15,34 +15,43 @@ module.exports = () => {
     return piggyBank;
   };
 
+  // find Bank User
   const findBankUser = async (userId) => {
-    logger.info(`${logAlias} findBankUser`, userId);
+    logger.info(`${logAlias} find Bank User`, userId);
 
-    return BankClient.findOne({ where: { origin_user_id: userId } });
+    const bankClient = await BankClient.findOne({
+      where: { origin_user_id: userId },
+    });
+
+    if (bankClient) return bankClient;
+
+    const error = createError('Can not find bank client', 500);
+
+    logger.error(error);
+
+    throw error;
   };
 
-  // const withdrawMoneyOfBankUser = async (userId, sum) => {
-  //   logger.info(`${logAlias} withdraw Money Of Bank User`, { userId, sum });
+  // get Piggy Bank
+  const getPiggyBank = async ({ userId, piggyBankId }) => {
+    logger.info(`${logAlias} get PiggyBank`, { userId, piggyBankId });
 
-  //   const bankClient = await BankClient.findOne({
-  //     where: { origin_user_id: userId },
-  //   });
+    if (userId) {
+      const piggyBank = await PiggyBank.findOne({
+        where: { owner_id: userId },
+      });
 
-  //   if (bankClient) {
-  //     const newBalanceofUser = Number(bankClient.balance) - Number(sum);
+      if (piggyBank) return piggyBank;
 
-  //     await BankClient.update(
-  //       { balance: String(newBalanceofUser) },
-  //       {
-  //         where: { origin_user_id: userId },
-  //       }
-  //     );
+      throw createError('Can not find piggy-bank');
+    }
 
-  //     return newBalanceofUser;
-  //   }
+    const piggyBank = await PiggyBank.findOne({ where: { id: piggyBankId } });
 
-  //   throw createError('Can not find bank user', 500);
-  // };
+    if (piggyBank) return piggyBank;
+
+    throw createError('Can not find piggy-bank');
+  };
 
   const topUpPiggyBank = async (userId, piggyBankId, sum) => {
     logger.info(`${logAlias} topUp PiggyBank`, { piggyBankId, sum });
@@ -53,36 +62,29 @@ module.exports = () => {
     let newBalanceOfPiggyBank;
 
     try {
-      const bankClient = await BankClient.findOne({
-        where: { origin_user_id: userId },
-      });
-      const piggyBank = await PiggyBank.findOne({
-        where: { id: piggyBankId },
-      });
+      const bankClient = await findBankUser(userId);
 
-      if (bankClient && piggyBank) {
-        newBalanceofUser = Number(bankClient.balance) - Number(sum);
+      const piggyBank = await getPiggyBank({ userId: null, piggyBankId });
 
-        newBalanceOfPiggyBank = Number(piggyBank.current_sum) + Number(sum);
+      newBalanceofUser = Number(bankClient.balance) - Number(sum);
 
-        await BankClient.update(
-          { balance: String(newBalanceofUser) },
-          {
-            where: { origin_user_id: userId },
-          },
-          { transaction }
-        );
+      newBalanceOfPiggyBank = Number(piggyBank.current_sum) + Number(sum);
 
-        await PiggyBank.update(
-          { current_sum: String(newBalanceOfPiggyBank) },
-          {
-            where: { id: piggyBankId },
-          },
-          { transaction }
-        );
-      } else {
-        throw createError('Something went wrong', 500);
-      }
+      await BankClient.update(
+        { balance: String(newBalanceofUser) },
+        {
+          where: { origin_user_id: userId },
+        },
+        { transaction }
+      );
+
+      await PiggyBank.update(
+        { current_sum: String(newBalanceOfPiggyBank) },
+        {
+          where: { id: piggyBankId },
+        },
+        { transaction }
+      );
 
       await transaction.commit();
     } catch (error) {
@@ -97,10 +99,53 @@ module.exports = () => {
     };
   };
 
+  const closePiggyBank = async ({ userId }) => {
+    logger.info(`${logAlias} close Piggy Bank`, { userId });
+
+    const transaction = await DB.transaction();
+
+    let newBalanceofUser;
+
+    try {
+      const bankClient = await findBankUser(userId);
+
+      const piggyBank = await getPiggyBank({ userId });
+
+      newBalanceofUser =
+        Number(bankClient.balance) + Number(piggyBank.current_sum);
+
+      await BankClient.update(
+        { balance: String(newBalanceofUser) },
+        {
+          where: { origin_user_id: userId },
+        },
+        { transaction }
+      );
+
+      await PiggyBank.destroy(
+        {
+          where: { id: piggyBank.id },
+        },
+        { transaction }
+      );
+
+      await transaction.commit();
+    } catch (error) {
+      await transaction.rollback();
+
+      throw createError('Something went wrong', 500);
+    }
+
+    return {
+      userBalance: newBalanceofUser,
+    };
+  };
+
   return {
     createNewPiggyBank,
     findBankUser,
-    // withdrawMoneyOfBankUser,
     topUpPiggyBank,
+    getPiggyBank,
+    closePiggyBank,
   };
 };

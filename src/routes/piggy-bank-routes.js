@@ -16,10 +16,29 @@ module.exports = () => {
     piggyBankService
   );
 
-  const { createNewPiggyBank, topUpBank } = piggyBankController;
+  const {
+    createNewPiggyBank,
+    topUpBank,
+    getPiggyBank,
+    getUserBalance,
+    closePiggyBank,
+  } = piggyBankController;
 
   router.post(`${basicPiggyBankRoute}/add`, authenticate, createNewPiggyBank);
+  router.post(
+    `${basicPiggyBankRoute}/closePiggyBank`,
+    authenticate,
+    closePiggyBank
+  );
   router.patch(`${basicPiggyBankRoute}/topUpBank`, authenticate, topUpBank);
+  router.get(`${basicPiggyBankRoute}/getPiggyBank`, authenticate, getPiggyBank);
+
+  // fake bank
+  router.get(
+    `${basicPiggyBankRoute}/getUserBalace`,
+    authenticate,
+    getUserBalance
+  );
 
   return router;
 };

@@ -52,7 +52,62 @@ const piggyBankService = (piggyBankRepository) => {
     }
   };
 
-  return { createNewPiggyBank, topUpBank };
+  // piggy Bank Service -> getMyPiggyBank()
+  const getPiggyBank = async ({ userId, piggyBankId }) => {
+    logger.info(`${logAlias} get PiggyBank`, userId);
+
+    try {
+      const piggyBank = await piggyBankRepository.getPiggyBank({
+        userId,
+        piggyBankId,
+      });
+
+      return piggyBank;
+    } catch (error) {
+      logger.error(error);
+      throw createError('Can not get piggy-bank', 500);
+    }
+  };
+
+  // piggy Bank Service -> getUserBalance()
+  const getUserBalance = async ({ userId }) => {
+    logger.info(`${logAlias} get User Balance`, userId);
+
+    try {
+      const userBalance = await piggyBankRepository.findBankUser({
+        userId,
+      });
+
+      return { userBalance: userBalance.balance };
+    } catch (error) {
+      logger.error(error);
+      throw createError('Can not get user balance', 500);
+    }
+  };
+
+  // piggy Bank Service -> closePiggyBank()
+  const closePiggyBank = async ({ userId }) => {
+    logger.info(`${logAlias} close Piggy Bank`, {
+      userId,
+    });
+
+    try {
+      const result = await piggyBankRepository.closePiggyBank({ userId });
+
+      return result;
+    } catch (error) {
+      logger.error(error);
+      throw createError('Can not close the piggy-bank', 500);
+    }
+  };
+
+  return {
+    createNewPiggyBank,
+    topUpBank,
+    getPiggyBank,
+    getUserBalance,
+    closePiggyBank,
+  };
 };
 
 module.exports = piggyBankService;
