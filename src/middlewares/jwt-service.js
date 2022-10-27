@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const createError = require('../errors-handle/createError');
 
 const JWT_CONFIGURATION = {
-  expiresIn: '1h',
+  expiresIn: '1d',
 };
 
 module.exports = {

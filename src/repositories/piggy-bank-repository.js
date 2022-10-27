@@ -16,7 +16,7 @@ module.exports = () => {
   };
 
   // find Bank User
-  const findBankUser = async (userId) => {
+  const findBankUser = async ({ userId }) => {
     logger.info(`${logAlias} find Bank User`, userId);
 
     const bankClient = await BankClient.findOne({
@@ -62,7 +62,7 @@ module.exports = () => {
     let newBalanceOfPiggyBank;
 
     try {
-      const bankClient = await findBankUser(userId);
+      const bankClient = await findBankUser({ userId });
 
       const piggyBank = await getPiggyBank({ userId: null, piggyBankId });
 
@@ -107,7 +107,7 @@ module.exports = () => {
     let newBalanceofUser;
 
     try {
-      const bankClient = await findBankUser(userId);
+      const bankClient = await findBankUser({ userId });
 
       const piggyBank = await getPiggyBank({ userId });
 

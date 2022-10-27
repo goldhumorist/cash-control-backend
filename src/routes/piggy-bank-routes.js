@@ -184,10 +184,10 @@ module.exports = () => {
    *     summary: Returns the piggy-bank
    *     tags: [piggy-bank]
    *     parameters:
-   *        - in: path
+   *        - in: query
    *          name: piggyBankId
    *          schema:
-   *            type: integer
+   *            type: string
    *          required: false
    *          description: If piggyBankId is provided you'll get someone piggy-bank, if not you'll get your own piggybank data
    *     security:
@@ -213,7 +213,7 @@ module.exports = () => {
 
   /**
    * @swagger
-   * /api/piggyBank/getUserBalace:
+   * /api/piggyBank/getUserBalance:
    *   get:
    *     summary: (FAKE BANK) Returns balance of the user
    *     tags: [piggy-bank]
@@ -240,7 +240,7 @@ module.exports = () => {
    *                  type: string
    */
   router.get(
-    `${basicPiggyBankRoute}/getUserBalace`,
+    `${basicPiggyBankRoute}/getUserBalance`,
     authenticate,
     getUserBalance
   );
