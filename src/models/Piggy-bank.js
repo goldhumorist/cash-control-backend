@@ -2,10 +2,9 @@ const Sequelize = require('sequelize');
 const { DB } = require('../db');
 const User = require('./User');
 
-const PiggyBank = DB.define('piggy-bank', {
+const PiggyBank = DB.define('piggy_bank', {
   id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
+    type: Sequelize.STRING,
     allowNull: false,
     primaryKey: true,
   },
@@ -17,7 +16,7 @@ const PiggyBank = DB.define('piggy-bank', {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  current_cum: {
+  current_sum: {
     type: Sequelize.STRING,
     allowNull: false,
   },
@@ -31,6 +30,7 @@ const PiggyBank = DB.define('piggy-bank', {
       model: User,
       key: 'id',
     },
+    allowNull: false,
   },
 });
 
