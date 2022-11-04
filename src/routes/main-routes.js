@@ -135,7 +135,7 @@ module.exports = () => {
    *     summary: get all purchases from the category
    *     tags: [Purchase]
    *     parameters:
-   *        - in: path
+   *        - in: query
    *          name: categoryId
    *          schema:
    *            type: integer
@@ -187,6 +187,10 @@ module.exports = () => {
    *            type: object
    *            properties:
    *              categoryId:
+   *                type: string
+   *              purchaseTitle:
+   *                type: string
+   *              purchasePrise:
    *                type: string
    *     responses:
    *       200:
