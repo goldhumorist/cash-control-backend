@@ -1,6 +1,6 @@
 # Cash-control-backend
 
-The Cash-control-backend is a API of Cash-Control web-service
+The Cash-control-backend is an API of Cash-Control web-service
 
 ---
 
