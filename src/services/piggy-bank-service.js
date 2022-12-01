@@ -101,12 +101,27 @@ const piggyBankService = (piggyBankRepository) => {
     }
   };
 
+  // piggy Bank Service -> closePiggyBank()
+  const getAllPiggyBanks = async () => {
+    logger.info(`${logAlias} Get all PiggyBanks`);
+
+    try {
+      const result = await piggyBankRepository.getAllPiggyBanks();
+
+      return result.map((item) => item.dataValues);
+    } catch (error) {
+      logger.error(error);
+      throw createError('Can not close the piggy-bank', 500);
+    }
+  };
+
   return {
     createNewPiggyBank,
     topUpBank,
     getPiggyBank,
     getUserBalance,
     closePiggyBank,
+    getAllPiggyBanks,
   };
 };
 

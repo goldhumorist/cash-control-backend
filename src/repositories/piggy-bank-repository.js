@@ -149,11 +149,20 @@ module.exports = () => {
     };
   };
 
+  const getAllPiggyBanks = async () => {
+    logger.info(`${logAlias} Get all Piggy Banks`);
+
+    const result = await PiggyBank.findAll();
+
+    return result;
+  };
+
   return {
     createNewPiggyBank,
     findBankUser: findBankCient,
     topUpPiggyBank,
     getPiggyBank,
     closePiggyBank,
+    getAllPiggyBanks,
   };
 };

@@ -86,7 +86,7 @@ const mainController = (mainService) => {
         categoryId,
       });
 
-      return res.json(result);
+      return res.json({ result });
     }
 
     const error = createError('Incorrect Data for get purchases', 400);

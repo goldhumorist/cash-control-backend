@@ -116,6 +116,18 @@ const piggyBankController = (piggyBankService) => {
       return next(error);
     }
   };
+  // piggy Bank Controller -> getAllPiggyBanks()
+  const getAllPiggyBanks = async (req, res, next) => {
+    logger.info(`${logAlias} Get all Piggy Banks:`);
+
+    try {
+      const result = await piggyBankService.getAllPiggyBanks();
+
+      return res.json({ result });
+    } catch (error) {
+      return next(error);
+    }
+  };
 
   return {
     createNewPiggyBank,
@@ -123,6 +135,7 @@ const piggyBankController = (piggyBankService) => {
     getPiggyBank,
     getUserBalance,
     closePiggyBank,
+    getAllPiggyBanks,
   };
 };
 

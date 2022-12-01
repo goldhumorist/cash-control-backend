@@ -60,6 +60,7 @@ module.exports = () => {
     getPiggyBank,
     getUserBalance,
     closePiggyBank,
+    getAllPiggyBanks,
   } = piggyBankController;
 
   /**
@@ -243,6 +244,42 @@ module.exports = () => {
     `${basicPiggyBankRoute}/getUserBalance`,
     authenticate,
     getUserBalance
+  );
+
+  /**
+   * @swagger
+   * /api/piggyBank/getAllPiggyBanks:
+   *   get:
+   *     summary: Returns all Piggy Banks
+   *     tags: [piggy-bank]
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       200:
+   *         description: The array with all Piggy Banks
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                  piggyBanks:
+   *                    type: array
+   *                    items:
+   *                      $ref: '#/components/schemas/PiggyBank'
+   *       401:
+   *        description: Unauthorized Access - No Token Provided
+   *        content:
+   *          application/json:
+   *            schema:
+   *              type: object
+   *              properties:
+   *                message:
+   *                  type: string
+   */
+  router.get(
+    `${basicPiggyBankRoute}/getAllPiggyBanks`,
+    authenticate,
+    getAllPiggyBanks
   );
 
   return router;

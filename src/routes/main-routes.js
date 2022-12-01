@@ -76,7 +76,7 @@ module.exports = () => {
    *             schema:
    *               type: object
    *               properties:
-   *                 categories:
+   *                 result:
    *                  type: array
    *                  items:
    *                    $ref: '#/components/schemas/Category'
@@ -110,12 +110,7 @@ module.exports = () => {
    *         content:
    *           application/json:
    *             schema:
-   *               type: object
-   *               properties:
-   *                 categories:
-   *                  type: array
-   *                  items:
-   *                    $ref: '#/components/schemas/Category'
+   *              $ref: '#/components/schemas/Category'
    *       400:
    *        description: You provided wrong values
    *        content:
@@ -151,7 +146,7 @@ module.exports = () => {
    *             schema:
    *               type: object
    *               properties:
-   *                 categories:
+   *                 result:
    *                  type: array
    *                  items:
    *                    $ref: '#/components/schemas/Purchase'
@@ -198,12 +193,7 @@ module.exports = () => {
    *         content:
    *           application/json:
    *             schema:
-   *               type: object
-   *               properties:
-   *                 categories:
-   *                  type: array
-   *                  items:
-   *                    $ref: '#/components/schemas/Purchase'
+   *              $ref: '#/components/schemas/Purchase'
    *       400:
    *        description: You provided wrong values
    *        content:
