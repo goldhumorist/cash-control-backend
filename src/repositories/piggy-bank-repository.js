@@ -16,7 +16,7 @@ module.exports = () => {
   };
 
   // find Bank User
-  const findBankUser = async ({ userId }) => {
+  const findBankCient = async ({ userId }) => {
     logger.info(`${logAlias} find Bank User`, userId);
 
     const bankClient = await BankClient.findOne({
@@ -62,11 +62,19 @@ module.exports = () => {
     let newBalanceOfPiggyBank;
 
     try {
-      const bankClient = await findBankUser({ userId });
+      const bankClient = await findBankCient({ userId });
+      console.log('bankClient', bankClient);
 
       const piggyBank = await getPiggyBank({ userId: null, piggyBankId });
+      console.log('piggyBank', piggyBank);
+
+      if (isNaN(Number(sum)) || Number(sum) < 0)
+        throw createError('Invaid sum', 400);
 
       newBalanceofUser = Number(bankClient.balance) - Number(sum);
+
+      if (newBalanceofUser < 0)
+        throw createError("You don't have enough money", 400);
 
       newBalanceOfPiggyBank = Number(piggyBank.current_sum) + Number(sum);
 
@@ -107,7 +115,7 @@ module.exports = () => {
     let newBalanceofUser;
 
     try {
-      const bankClient = await findBankUser({ userId });
+      const bankClient = await findBankCient({ userId });
 
       const piggyBank = await getPiggyBank({ userId });
 
@@ -143,7 +151,7 @@ module.exports = () => {
 
   return {
     createNewPiggyBank,
-    findBankUser,
+    findBankUser: findBankCient,
     topUpPiggyBank,
     getPiggyBank,
     closePiggyBank,

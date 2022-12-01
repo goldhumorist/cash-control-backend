@@ -1,5 +1,5 @@
 version: '3.8'
-name: postgresql
+name: cash-control
 services:
   db:
     container_name: pg_container
@@ -15,7 +15,7 @@ services:
       - ./tmp/db:/var/lib/postgresql/data
 
   pgadmin:
-    container_name: pgadmin4_container
+    container_name: pgadmin_container
     image: dpage/pgadmin4
     restart: always
     environment:
