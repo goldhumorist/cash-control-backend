@@ -93,7 +93,24 @@ const mainController = (mainService) => {
     return next(error);
   };
 
-  return { addCategory, getAllCategories, addPurchase, getAllPurchases };
+  // get statistic of users's purchases
+  const getPurchaseStatistic = async (req, res, next) => {
+    const { id: userId } = req.user;
+
+    logger.info(`${logAlias} get statistic for user`, { userId });
+
+    const result = await mainService.getPurchaseStatistic({ userId });
+
+    return res.json({ result });
+  };
+
+  return {
+    addCategory,
+    getAllCategories,
+    addPurchase,
+    getAllPurchases,
+    getPurchaseStatistic,
+  };
 };
 
 module.exports = mainController;

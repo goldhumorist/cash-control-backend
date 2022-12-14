@@ -4,6 +4,7 @@ const router = require('express').Router();
 
 const basicCategoryRoute = '/api/category';
 const basicPurchaseRoute = '/api/purchase';
+const basicStatisticRoute = '/api/statistic';
 
 module.exports = () => {
   const mainRepository = require('../repositories/main-repository')();
@@ -12,8 +13,13 @@ module.exports = () => {
 
   const mainController = require('../controllers/main-controller')(mainService);
 
-  const { addCategory, getAllCategories, addPurchase, getAllPurchases } =
-    mainController;
+  const {
+    addCategory,
+    getAllCategories,
+    addPurchase,
+    getAllPurchases,
+    getPurchaseStatistic,
+  } = mainController;
   /**
    * @swagger
    * components:
@@ -205,6 +211,12 @@ module.exports = () => {
    *                  type: string
    */
   router.post(`${basicPurchaseRoute}/add`, authenticate, addPurchase);
+
+  router.get(
+    `${basicStatisticRoute}/getPurchaseStatistic`,
+    authenticate,
+    getPurchaseStatistic
+  );
 
   return router;
 };

@@ -55,5 +55,28 @@ module.exports = () => {
     });
   };
 
-  return { addCategory, getAllCategories, addPurchase, getAllPurchases };
+  const getPurchaseStatistic = async ({ userId }) => {
+    logger.info(`${logAlias} get statistic for user`, { userId });
+
+    const categories = await Category.findAll({
+      where: { user_id: userId },
+    });
+
+    const purchases = await Purchase.findAll({
+      where: { category_id: categories.map((category) => category.id) },
+    });
+
+    return {
+      categories,
+      purchases,
+    };
+  };
+
+  return {
+    addCategory,
+    getAllCategories,
+    addPurchase,
+    getAllPurchases,
+    getPurchaseStatistic,
+  };
 };

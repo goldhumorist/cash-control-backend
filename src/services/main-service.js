@@ -18,7 +18,7 @@ const mainService = (mainRepository) => {
 
       allCategories = formatCategories(allCategories);
     } catch (error) {
-      throw createError("Sorry, we can't add this category", 400);
+      return createError("Sorry, we can't add this category", 400);
     }
 
     return { categories: allCategories };
@@ -50,6 +50,10 @@ const mainService = (mainRepository) => {
       categoryId,
     });
 
+    if (isNaN(Number(purchasePrise))) {
+      return createError('Invalid price', 400);
+    }
+
     let allPurchases = await mainRepository.addPurchase({
       userId,
       purchaseTitle,
@@ -78,7 +82,45 @@ const mainService = (mainRepository) => {
     return { purchases: allPurchases };
   };
 
-  return { addCategory, getAllCategories, addPurchase, getAllPurchases };
+  const getPurchaseStatistic = async ({ userId }) => {
+    logger.info(`${logAlias}  get statistic for user`, { userId });
+
+    const { categories, purchases } = await mainRepository.getPurchaseStatistic(
+      { userId }
+    );
+
+    const categoriesWithPurchasesSum = {};
+
+    const resultCategories = categories.map((category) => {
+      categoriesWithPurchasesSum[category.id] = 0;
+      return category.category_title;
+    });
+
+    purchases.forEach((purchase) => {
+      if (categoriesWithPurchasesSum[purchase.category_id]) {
+        categoriesWithPurchasesSum[purchase.category_id] += Number(
+          purchase.purchase_price
+        );
+      } else {
+        categoriesWithPurchasesSum[purchase.category_id] = Number(
+          purchase.purchase_price
+        );
+      }
+    });
+
+    return {
+      categories: resultCategories,
+      sums: Object.values(categoriesWithPurchasesSum),
+    };
+  };
+
+  return {
+    addCategory,
+    getAllCategories,
+    addPurchase,
+    getAllPurchases,
+    getPurchaseStatistic,
+  };
 };
 
 module.exports = mainService;
